@@ -144,9 +144,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       context,
                     ).textTheme.labelSmall!.copyWith(fontSize: 16),
                   ),
-                  leading: SvgPicture.asset("assets/images/Icon1.svg",
-                  
-                  ),
+                  leading: SvgPicture.asset("assets/images/Icon1.svg"),
                   trailing: SvgPicture.asset("assets/images/arrowback.svg"),
                 ),
                 // SizedBox(height: 5),
