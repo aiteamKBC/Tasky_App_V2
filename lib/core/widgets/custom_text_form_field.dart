@@ -32,7 +32,6 @@ class CustomTextFormField extends StatelessWidget {
         SizedBox(height: 8),
         TextFormField(
           controller: controller,
-          cursorColor: Colors.white,
           style: Theme.of(context).textTheme.labelMedium,
           validator: validator,
           maxLines: maxLine,

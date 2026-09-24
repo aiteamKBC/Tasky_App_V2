@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:taskyapp/core/services/preferences_manger.dart';
+import 'package:taskyapp/core/widgets/custom_svg_picture.dart';
 import 'package:taskyapp/core/widgets/custom_text_form_field.dart';
 // import 'package:taskyapp/screens/home_screen.dart';
 import 'package:taskyapp/screens/main_screen.dart';
@@ -26,10 +26,10 @@ class WelcomeScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SvgPicture.asset(
-                        "assets/images/loggo.svg",
-                        height: 42,
+                      CustomSvgPicture.withoutColor(
+                        path: "assets/images/loggo.svg",
                         width: 42,
+                        hight: 42,
                       ),
 
                       SizedBox(width: 16),
@@ -48,7 +48,9 @@ class WelcomeScreen extends StatelessWidget {
                         style: Theme.of(context).textTheme.displaySmall,
                       ),
                       SizedBox(width: 8),
-                      SvgPicture.asset("assets/images/wavinghand.svg"),
+                      CustomSvgPicture.withoutColor(
+                        path: "assets/images/wavinghand.svg",
+                      ),
                     ],
                   ),
                   SizedBox(height: 8),
@@ -59,11 +61,12 @@ class WelcomeScreen extends StatelessWidget {
                     ).textTheme.displaySmall!.copyWith(fontSize: 16),
                   ),
                   SizedBox(height: 30),
-                  SvgPicture.asset(
-                    "assets/images/pana.svg",
+                  CustomSvgPicture.withoutColor(
+                    path: "assets/images/pana.svg",
                     width: 215,
-                    height: 200,
+                    hight: 200,
                   ),
+
                   SizedBox(height: 24),
                   Padding(
                     padding: const EdgeInsets.symmetric(
@@ -125,6 +128,7 @@ class WelcomeScreen extends StatelessWidget {
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 14,
+                              decoration: TextDecoration.none,
                             ),
                           ),
                         ),

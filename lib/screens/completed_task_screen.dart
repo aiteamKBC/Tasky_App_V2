@@ -29,9 +29,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
     setState(() {
       isLoading = true;
     });
-       final finalTask = PreferencesManger().getString("tasks");
-
-   
+    final finalTask = PreferencesManger().getString("tasks");
 
     if (finalTask != null) {
       final taskAfterDecode = jsonDecode(finalTask) as List<dynamic>;
@@ -55,12 +53,14 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
       children: [
         Padding(
           padding: const EdgeInsets.all(18.0),
-          child: Text(
-            "Completed Tasks",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w400,
-              color: Color(0XFFFFFCFC),
+          child: Center(
+            child: Text(
+              "Completed Tasks",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w400,
+                color: Color(0XFFFFFCFC),
+              ),
             ),
           ),
         ),
@@ -81,10 +81,12 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
                         tasks[index!].isDone = value ?? false;
                       });
 
-
                       final updatedTask = tasks.map((e) => e.toJson()).toList();
 
-                      await PreferencesManger().setString("tasks", jsonEncode(updatedTask));
+                      await PreferencesManger().setString(
+                        "tasks",
+                        jsonEncode(updatedTask),
+                      );
                       _loadTask();
                     },
                     emptyMessage: 'No Tasks Completed',

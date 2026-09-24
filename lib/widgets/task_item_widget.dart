@@ -55,14 +55,18 @@ class TaskItemWidget extends StatelessWidget {
                       model.taskDescription,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(
-                        context,
-                      ).textTheme.labelSmall!.copyWith(fontSize: 14),
+                      style: Theme.of(context).textTheme.titleSmall!,
                     ),
                 ],
               ),
             ),
-            IconButton(onPressed: () {}, icon: Icon(Icons.more_vert)),
+            IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.more_vert),
+              color: ThemeControler.isDark()
+                  ? (model.isDone ? Color(0xffA0A0A0) : Color(0XFFC6C6C6))
+                  : (model.isDone ? Color(0xff6A6A6A) : Color(0XFF3A4640)),
+            ),
           ],
         ),
       ),

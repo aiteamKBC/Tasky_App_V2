@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:taskyapp/core/services/preferences_manger.dart';
 import 'package:taskyapp/core/theme/theme_controler.dart';
+import 'package:taskyapp/core/widgets/custom_svg_picture.dart';
 import 'package:taskyapp/screens/user_details_screen.dart';
 import 'package:taskyapp/screens/welcome_screen.dart';
 
@@ -78,13 +78,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 height: 45,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(100),
-                                  color: Color(0xff282828),
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.primaryContainer,
                                 ),
-                                child: Icon(
-                                  Icons.camera_alt,
-                                  color: Color(0xfffffcfc),
-                                  size: 24,
-                                ),
+                                child: Icon(Icons.camera_alt, size: 24),
                               ),
                             ),
                           ),
@@ -93,20 +91,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       SizedBox(height: 6),
                       Text(
                         username,
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xfffffcfc),
-                        ),
+                        style: Theme.of(context).textTheme.labelSmall,
                       ),
                       SizedBox(height: 4),
                       Text(
                         motivationQuote,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xffc6c6c6),
-                        ),
+                        style: Theme.of(context).textTheme.titleSmall,
                       ),
                     ],
                   ),
@@ -138,28 +128,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     }
                   },
                   contentPadding: EdgeInsets.zero,
-                  title: Text(
-                    "User Details",
-                    style: Theme.of(
-                      context,
-                    ).textTheme.labelSmall!.copyWith(fontSize: 16),
+                  title: Text("User Details"),
+                  leading: CustomSvgPicture(path: "assets/images/Icon1.svg"),
+
+                  trailing: CustomSvgPicture(
+                    path: "assets/images/arrowback.svg",
                   ),
-                  leading: SvgPicture.asset("assets/images/Icon1.svg"),
-                  trailing: SvgPicture.asset("assets/images/arrowback.svg"),
                 ),
                 // SizedBox(height: 5),
-                Divider(thickness: 1, color: Color(0xff6E6E6E)),
+                Divider(),
                 ListTile(
                   onTap: () {},
                   contentPadding: EdgeInsets.zero,
-                  title: Text(
-                    "Dark Mode",
-                    style: Theme.of(
-                      context,
-                    ).textTheme.labelSmall!.copyWith(fontSize: 16),
-                  ),
-                  leading: SvgPicture.asset(
-                    "assets/images/Leading element.svg",
+                  title: Text("Dark Mode"),
+                  leading: CustomSvgPicture(
+                    path: "assets/images/Leading element.svg",
                   ),
                   trailing: ValueListenableBuilder(
                     valueListenable: ThemeControler.themeNotifier,
@@ -174,7 +157,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
                 //SizedBox(height: 14),
-                Divider(thickness: 1, color: Color(0xff6E6E6E)),
+                Divider(),
                 ListTile(
                   onTap: () async {
                     PreferencesManger().remove("username");
@@ -191,14 +174,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     );
                   },
                   contentPadding: EdgeInsets.zero,
-                  title: Text(
-                    "Log Out",
-                    style: Theme.of(
-                      context,
-                    ).textTheme.labelSmall!.copyWith(fontSize: 16),
+                  title: Text("Log Out"),
+                  leading: CustomSvgPicture(path: "assets/images/Icon.svg"),
+
+                  trailing: CustomSvgPicture(
+                    path: "assets/images/arrowback.svg",
                   ),
-                  leading: SvgPicture.asset("assets/images/Icon.svg"),
-                  trailing: SvgPicture.asset("assets/images/arrowback.svg"),
                 ),
               ],
             ),

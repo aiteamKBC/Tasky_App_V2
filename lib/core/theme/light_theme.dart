@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 ThemeData lighttheme = ThemeData(
   scaffoldBackgroundColor: Color(0XFFF6F7F9),
   useMaterial3: true,
-  colorScheme: ColorScheme.light(primaryContainer: Color(0XFFFFFFFF)),
+  colorScheme: ColorScheme.light(
+    primaryContainer: Color(0XFFFFFFFF),
+    secondary: Color(0xff161F1B),
+  ),
   appBarTheme: AppBarTheme(
     backgroundColor: Color(0XFFF6F7F9),
     titleTextStyle: TextStyle(
@@ -44,7 +47,20 @@ ThemeData lighttheme = ThemeData(
     style: ButtonStyle(
       backgroundColor: WidgetStateProperty.all(Color((0xff15B86C))),
       foregroundColor: WidgetStateProperty.all(Color(0XFFFFFCFC)),
+      textStyle: WidgetStateProperty.all(
+        TextStyle(
+          fontWeight: FontWeight.w500,
+          fontSize: 14,
+          decoration: TextDecoration.none,
+        ),
+      ),
     ),
+  ),
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+    backgroundColor: const Color(0XFF15B86C),
+    foregroundColor: const Color(0XFFFFFCFC),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+    extendedTextStyle: TextStyle(decoration: TextDecoration.none),
   ),
   textTheme: TextTheme(
     displaySmall: TextStyle(
@@ -117,5 +133,25 @@ ThemeData lighttheme = ThemeData(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
     side: BorderSide(color: Color(0xffD1DAD6), width: 2),
   ),
-  iconTheme: IconThemeData(color: Color(0xff3A4640)),
+  iconTheme: IconThemeData(color: Color(0xff161F1B)),
+  listTileTheme: ListTileThemeData(
+    titleTextStyle: TextStyle(
+      color: Color(0xff161F1B),
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+    ),
+  ),
+  dividerTheme: DividerThemeData(thickness: 1, color: Color(0xffD1DAD6)),
+  textSelectionTheme: TextSelectionThemeData(
+    cursorColor: Colors.black,
+    selectionColor: const Color.fromARGB(255, 73, 138, 75),
+    selectionHandleColor: Colors.black,
+  ),
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    backgroundColor: Color(0xffF6F7F9),
+    selectedItemColor: Color(0xff15B86C),
+    unselectedItemColor: Color(0xff3A4640),
+    type: BottomNavigationBarType.fixed,
+  ),
+  splashFactory: NoSplash.splashFactory,
 );

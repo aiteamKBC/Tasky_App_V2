@@ -86,7 +86,11 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                 },
                 child: Text(
                   "Save Changes",
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    decoration: TextDecoration.none,
+                  ),
                 ),
               ),
             ],

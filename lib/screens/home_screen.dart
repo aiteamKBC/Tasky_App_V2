@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:taskyapp/core/services/preferences_manger.dart';
+import 'package:taskyapp/core/widgets/custom_svg_picture.dart';
 import 'package:taskyapp/models/task_model.dart';
 import 'package:taskyapp/screens/add_task_screen.dart';
 import 'package:taskyapp/widgets/archieved_tasks_widget.dart';
 import 'package:taskyapp/widgets/high_priority_tasks_widget.dart';
-import 'package:taskyapp/widgets/sliver_task_list.dart';
 import 'package:taskyapp/widgets/task_list_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -132,10 +132,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               style: Theme.of(context).textTheme.titleLarge,
                             ),
                             const SizedBox(width: 8),
-                            SvgPicture.asset(
-                              "assets/images/wavinghand.svg",
-                              height: 32,
+                            CustomSvgPicture.withoutColor(
+                              path: "assets/images/wavinghand.svg",
                               width: 32,
+                              hight: 32,
                             ),
                           ],
                         ),
@@ -194,16 +194,8 @@ class _HomeScreenState extends State<HomeScreen> {
           height: 40,
           child: FloatingActionButton.extended(
             icon: const Icon(Icons.add),
-            label: const Text(
-              "Add New Task",
-              style: TextStyle(decoration: TextDecoration.none),
-            ),
+            label: const Text("Add New Task"),
 
-            backgroundColor: const Color(0XFF15B86C),
-            foregroundColor: const Color(0XFFFFFCFC),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
             onPressed: () async {
               // الانتظار حتى يعود المستخدم من صفحة الإضافة لتحديث القائمة
               final bool? result = await Navigator.push(

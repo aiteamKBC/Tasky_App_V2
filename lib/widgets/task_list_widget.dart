@@ -22,7 +22,7 @@ class TaskListWidget extends StatelessWidget {
         ? Center(
             child: Text(
               emptyMessage ?? "No Data",
-              style: TextStyle(color: Colors.white, fontSize: 24),
+              style: Theme.of(context).textTheme.displaySmall,
             ),
           )
         : ListView.separated(
@@ -34,12 +34,12 @@ class TaskListWidget extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 40),
             itemCount: tasks.length,
             itemBuilder: (BuildContext context, int index) {
-              return  TaskItemWidget(
-                  model: tasks[index],
-                  onChanged: (bool? value) {
-                    onTap(value, index);
-                  },
-                );
+              return TaskItemWidget(
+                model: tasks[index],
+                onChanged: (bool? value) {
+                  onTap(value, index);
+                },
+              );
             },
           );
   }
