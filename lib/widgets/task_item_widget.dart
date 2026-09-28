@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskyapp/core/enums/task_item_actions_enum.dart';
 import 'package:taskyapp/core/theme/theme_controler.dart';
 import 'package:taskyapp/core/widgets/custom_check_box.dart';
 import 'package:taskyapp/models/task_model.dart';
@@ -8,9 +9,11 @@ class TaskItemWidget extends StatelessWidget {
     super.key,
     required this.model,
     required this.onChanged,
+    required this.onDeleted,
   });
   final TaskModel model;
   final Function(bool?) onChanged;
+  final Function(int) onDeleted;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -60,12 +63,75 @@ class TaskItemWidget extends StatelessWidget {
                 ],
               ),
             ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.more_vert),
-              color: ThemeControler.isDark()
-                  ? (model.isDone ? Color(0xffA0A0A0) : Color(0XFFC6C6C6))
-                  : (model.isDone ? Color(0xff6A6A6A) : Color(0XFF3A4640)),
+
+            PopupMenuButton<TaskItemActionsEnum>(
+              icon: Icon(
+                Icons.more_vert,
+                color: ThemeControler.isDark()
+                    ? (model.isDone ? Color(0xffA0A0A0) : Color(0XFFC6C6C6))
+                    : (model.isDone ? Color(0xff6A6A6A) : Color(0XFF3A4640)),
+              ),
+
+              onSelected: (value) {
+                switch (value) {
+                  case TaskItemActionsEnum.markAsDone:
+                    onChanged(!model.isDone);
+
+                  case TaskItemActionsEnum.edit:
+                    print(value.name);
+                  case TaskItemActionsEnum.delete:
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text("Delete Task"),
+                          content: Text(
+                            "are you sure you want to delete task?",
+                          ),
+                          actions: [
+                            TextButton(
+                           
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text(
+                                "Cancel",
+                                style: TextStyle(
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                                style: TextButton.styleFrom(
+                                foregroundColor: Colors.red,
+                              ),
+                              onPressed: () {
+                                onDeleted(model.id);
+
+                                Navigator.pop(context);
+                              },
+                              child: Text(
+                                "Delete",
+                                style: TextStyle(
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+
+                  // onDeleted(model.id);
+                }
+              },
+
+              itemBuilder: (context) => TaskItemActionsEnum.values.map((e) {
+                return PopupMenuItem<TaskItemActionsEnum>(
+                  value: e,
+                  child: Text(e.name),
+                );
+              }).toList(),
             ),
           ],
         ),

@@ -57,6 +57,9 @@ ThemeData darktheme = ThemeData(
       ),
     ),
   ),
+  textButtonTheme: TextButtonThemeData(
+    style: ButtonStyle(foregroundColor: WidgetStateProperty.all(Colors.white)),
+  ),
   floatingActionButtonTheme: FloatingActionButtonThemeData(
     backgroundColor: const Color(0XFF15B86C),
     foregroundColor: const Color(0XFFFFFCFC),
@@ -147,4 +150,21 @@ ThemeData darktheme = ThemeData(
     type: BottomNavigationBarType.fixed,
   ),
   splashFactory: NoSplash.splashFactory,
+  popupMenuTheme: PopupMenuThemeData(
+    color: Color(0XFF181818),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(16),
+      side: BorderSide(width: 1, color: Color(0xff15B86C)),
+    ),
+    elevation: 2,
+    shadowColor: Color(0xff15B86C),
+    labelTextStyle: WidgetStateProperty.all(
+      TextStyle(
+        fontSize: 18,
+        color: Color(0XFFFFFCFC),
+        fontWeight: FontWeight.w400,
+        decoration: TextDecoration.none,
+      ),
+    ),
+  ),
 );

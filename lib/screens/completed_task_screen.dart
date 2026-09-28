@@ -46,6 +46,23 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
     });
   }
 
+  void _deleteTask(int id) async {
+    List<TaskModel> tasks = [];
+    final finalTask = PreferencesManger().getString("tasks");
+
+    if (finalTask != null) {
+      final taskAfterDecode = jsonDecode(finalTask) as List<dynamic>;
+      tasks = taskAfterDecode.map((e) => TaskModel.fromJson(e)).toList();
+      tasks.removeWhere((e) => e.id == id);
+
+      setState(() {
+        tasks.removeWhere((task) => task.id == id);
+      });
+      final updatedTask = tasks.map((element) => element.toJson()).toList();
+      await PreferencesManger().setString("tasks", jsonEncode(updatedTask));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -56,11 +73,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
           child: Center(
             child: Text(
               "Completed Tasks",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w400,
-                color: Color(0XFFFFFCFC),
-              ),
+              style: Theme.of(context).textTheme.labelSmall,
             ),
           ),
         ),
@@ -90,6 +103,9 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
                       _loadTask();
                     },
                     emptyMessage: 'No Tasks Completed',
+                    onDelete: (int id) {
+                      _deleteTask(id);
+                    },
                   ),
           ),
         ),

@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:taskyapp/core/services/preferences_manger.dart';
 import 'package:taskyapp/core/widgets/custom_svg_picture.dart';
 import 'package:taskyapp/models/task_model.dart';
 import 'package:taskyapp/screens/add_task_screen.dart';
 import 'package:taskyapp/widgets/archieved_tasks_widget.dart';
 import 'package:taskyapp/widgets/high_priority_tasks_widget.dart';
+import 'package:taskyapp/widgets/sliver_task_list.dart';
 import 'package:taskyapp/widgets/task_list_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -72,6 +72,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final updatedTask = tasks.map((e) => e.toJson()).toList();
 
+    await PreferencesManger().setString("tasks", jsonEncode(updatedTask));
+  }
+
+  // TODO :Make Shared Method
+
+  void _deleteTask(int id) async {
+    setState(() {
+      tasks.removeWhere((task) => task.id == id);
+      _calculateProgress();
+    });
+    final updatedTask = tasks.map((element) => element.toJson()).toList();
     await PreferencesManger().setString("tasks", jsonEncode(updatedTask));
   }
 
@@ -178,13 +189,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: CircularProgressIndicator(color: Colors.green),
                       ),
                     )
-                  : SliverToBoxAdapter(
-                      child: TaskListWidget(
-                        tasks: tasks,
-                        onTap: (bool? value, int? index) {
-                          _doneTask(value, index);
-                        },
-                      ),
+                  : SliverTaskList(
+                      tasks: tasks,
+                      onTap: (bool? value, int? index) {
+                        _doneTask(value, index);
+                      },
+                      onDelete: (int id) {
+                        _deleteTask(id);
+                      },
                     ),
             ],
           ),

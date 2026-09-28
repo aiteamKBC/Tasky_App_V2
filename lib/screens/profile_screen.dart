@@ -46,11 +46,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: [
                 Padding(
                   padding: EdgeInsets.only(top: 8.0),
-                  child: Text(
-                    "My profile",
-                    style: Theme.of(
-                      context,
-                    ).textTheme.labelSmall!.copyWith(fontSize: 28),
+                  child: Center(
+                    child: Text(
+                      "My profile",
+                      style: Theme.of(
+                        context,
+                      ).textTheme.labelSmall!.copyWith(fontSize: 28),
+                    ),
                   ),
                 ),
                 SizedBox(height: 16),
