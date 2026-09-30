@@ -7,7 +7,6 @@ import 'package:taskyapp/screens/add_task_screen.dart';
 import 'package:taskyapp/widgets/archieved_tasks_widget.dart';
 import 'package:taskyapp/widgets/high_priority_tasks_widget.dart';
 import 'package:taskyapp/widgets/sliver_task_list.dart';
-import 'package:taskyapp/widgets/task_list_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -196,6 +195,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                       onDelete: (int id) {
                         _deleteTask(id);
+                      },
+                      onEdit: () {
+                        _loadTask();
                       },
                     ),
             ],

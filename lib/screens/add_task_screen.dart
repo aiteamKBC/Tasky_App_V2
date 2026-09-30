@@ -62,11 +62,7 @@ class _AddTaskState extends State<AddTask> {
                   children: [
                     Text(
                       "High Priority",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: Color(0XFFFFFCFC),
-                      ),
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                     Switch(
                       value: isHighPriority,

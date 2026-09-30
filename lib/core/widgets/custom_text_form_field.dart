@@ -21,18 +21,11 @@ class CustomTextFormField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
 
       children: [
-        Text(
-          title,
-          style: TextStyle(
-            fontSize: 16,
-            color: Color(0xffFFFCFC),
-            fontWeight: FontWeight.w400,
-          ),
-        ),
+        Text(title, style: Theme.of(context).textTheme.titleMedium),
         SizedBox(height: 8),
         TextFormField(
           controller: controller,
-          style: Theme.of(context).textTheme.labelMedium,
+          style: Theme.of(context).textTheme.titleMedium,
           validator: validator,
           maxLines: maxLine,
 

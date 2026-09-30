@@ -103,6 +103,9 @@ class _HighPriorityScreenState extends State<HighPriorityScreen> {
                 onDelete: (int id) {
                   _deleteTask(id);
                 },
+                onEdit: () {
+                  _loadTask();
+                },
               ),
       ),
     );

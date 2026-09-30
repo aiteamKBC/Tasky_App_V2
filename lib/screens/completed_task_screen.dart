@@ -21,7 +21,6 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
   void initState() {
     _loadTask();
 
-    // TODO: implement initState
     super.initState();
   }
 
@@ -105,6 +104,9 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
                     emptyMessage: 'No Tasks Completed',
                     onDelete: (int id) {
                       _deleteTask(id);
+                    },
+                    onEdit: () {
+                      _loadTask();
                     },
                   ),
           ),
