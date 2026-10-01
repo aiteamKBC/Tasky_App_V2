@@ -1,0 +1,12 @@
+{
+  "editor.quickSuggestions": {
+    "comments": "on",
+    "strings": "on",
+    "other": "on"
+  },
+  "editor.suggestOnTriggerCharacters": true,
+  "editor.parameterHints.enabled": true,
+  "editor.inlineSuggest.enabled": true,
+  "github.copilot.enable": false,
+  "github.copilot.nextEditSuggestions.enabled": false
+}

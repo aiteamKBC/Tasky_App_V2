@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:taskyapp/core/services/preferences_manger.dart';
 import 'package:taskyapp/core/theme/theme_controler.dart';
 import 'package:taskyapp/core/widgets/custom_svg_picture.dart';
@@ -17,6 +20,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late String motivationQuote;
 
   bool isLoading = true;
+  File? _selectedImage;
 
   @override
   void initState() {
@@ -64,9 +68,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                         children: [
                           CircleAvatar(
-                            backgroundImage: AssetImage(
-                              "assets/images/Avatar.png",
-                            ),
+                            backgroundImage: _selectedImage == null
+                                ? AssetImage("assets/images/Avatar.png")
+                                : FileImage(_selectedImage!),
+
                             radius: 60,
                             backgroundColor: Colors.transparent,
                           ),
@@ -74,7 +79,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Positioned(
                             bottom: 0,
                             right: 0,
+                            //////imagepicker /////
                             child: GestureDetector(
+                              onTap: () async {
+                                showImageSourceDialog(context);
+                                // XFile? image = await ImagePicker().pickImage(
+                                //   source: ImageSource.gallery,
+                                // );
+                                // if (image != null) {
+                                //   setState(() {
+                                //     _selectedImage = File(image.path);
+                                //   });
+                                // }
+                              },
                               child: Container(
                                 width: 45,
                                 height: 45,
@@ -187,4 +204,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           );
   }
+}
+
+void showImageSourceDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return SimpleDialog(
+        children:[
+          
+        ]
+      );
+    },
+  );
 }
