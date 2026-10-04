@@ -3,7 +3,7 @@ import 'package:taskyapp/core/services/preferences_manger.dart';
 import 'package:taskyapp/core/widgets/custom_svg_picture.dart';
 import 'package:taskyapp/core/widgets/custom_text_form_field.dart';
 // import 'package:taskyapp/screens/home_screen.dart';
-import 'package:taskyapp/screens/main_screen.dart';
+import 'package:taskyapp/core/features/navigation/main_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   WelcomeScreen({super.key});

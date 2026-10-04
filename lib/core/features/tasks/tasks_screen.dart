@@ -3,19 +3,19 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:taskyapp/core/services/preferences_manger.dart';
 
-import '../models/task_model.dart';
-import '../widgets/task_list_widget.dart';
+import '../../../models/task_model.dart';
+import '../../components/task_list_widget.dart';
 
-class CompletedTaskScreen extends StatefulWidget {
-  const CompletedTaskScreen({super.key});
+class TasksScreen extends StatefulWidget {
+  const TasksScreen({super.key});
 
   @override
-  State<CompletedTaskScreen> createState() => _CompletedTaskScreenState();
+  State<TasksScreen> createState() => _TasksScreenState();
 }
 
-class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
+class _TasksScreenState extends State<TasksScreen> {
   bool isLoading = false;
-  List<TaskModel> tasks = [];
+  List<TaskModel> todoTasks = [];
 
   @override
   void initState() {
@@ -34,9 +34,9 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
       final taskAfterDecode = jsonDecode(finalTask) as List<dynamic>;
 
       setState(() {
-        tasks = taskAfterDecode
+        todoTasks = taskAfterDecode
             .map((e) => TaskModel.fromJson(e))
-            .where((e) => e.isDone)
+            .where((e) => e.isDone == false)
             .toList();
       });
     }
@@ -55,7 +55,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
       tasks.removeWhere((e) => e.id == id);
 
       setState(() {
-        tasks.removeWhere((task) => task.id == id);
+        todoTasks.removeWhere((task) => task.id == id);
       });
       final updatedTask = tasks.map((element) => element.toJson()).toList();
       await PreferencesManger().setString("tasks", jsonEncode(updatedTask));
@@ -71,8 +71,10 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
           padding: const EdgeInsets.all(18.0),
           child: Center(
             child: Text(
-              "Completed Tasks",
-              style: Theme.of(context).textTheme.labelSmall,
+              "To Do Tasks",
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium!.copyWith(fontSize: 20),
             ),
           ),
         ),
@@ -87,21 +89,30 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
                     ),
                   )
                 : TaskListWidget(
-                    tasks: tasks,
+                    tasks: todoTasks,
                     onTap: (bool? value, int? index) async {
                       setState(() {
-                        tasks[index!].isDone = value ?? false;
+                        todoTasks[index!].isDone = value ?? false;
                       });
+                      final allData = PreferencesManger().getString("tasks");
 
-                      final updatedTask = tasks.map((e) => e.toJson()).toList();
-
-                      await PreferencesManger().setString(
-                        "tasks",
-                        jsonEncode(updatedTask),
-                      );
-                      _loadTask();
+                      if (allData != null) {
+                        List<TaskModel> allDataList =
+                            (jsonDecode(allData) as List)
+                                .map((element) => TaskModel.fromJson(element))
+                                .toList();
+                        final newIndex = allDataList.indexWhere(
+                          (e) => e.id == todoTasks[index!].id,
+                        );
+                        allDataList[newIndex] = todoTasks[index!];
+                        await PreferencesManger().setString(
+                          "tasks",
+                          jsonEncode(allDataList),
+                        );
+                        _loadTask();
+                      }
                     },
-                    emptyMessage: 'No Tasks Completed',
+                    emptyMessage: 'No Tasks Founded',
                     onDelete: (int id) {
                       _deleteTask(id);
                     },
