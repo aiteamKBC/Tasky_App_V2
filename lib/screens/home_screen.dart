@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:taskyapp/core/services/preferences_manger.dart';
 import 'package:taskyapp/core/widgets/custom_svg_picture.dart';
@@ -17,6 +18,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String? username;
+  String? userImagePath;
   List<TaskModel> tasks = [];
   bool isLoading = false;
   int totalTasks = 0;
@@ -33,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void _loaduserName() async {
     setState(() {
       username = PreferencesManger().getString("username");
+      userImagePath = PreferencesManger().getString("user_Image");
     });
   }
 
@@ -100,12 +103,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Row(
                       children: [
-                        const CircleAvatar(
+                        CircleAvatar(
                           backgroundColor: Colors.transparent,
 
-                          backgroundImage: AssetImage(
-                            "assets/images/Avatar.png",
-                          ),
+                          backgroundImage: userImagePath == null
+                              ? const AssetImage("assets/images/Avatar.png")
+                              : FileImage(File(userImagePath!)),
                         ),
                         const SizedBox(width: 8),
                         Flexible(
