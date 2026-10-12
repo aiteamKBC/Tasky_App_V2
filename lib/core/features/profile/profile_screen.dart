@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:taskyapp/core/constants/storage_key.dart';
 import 'package:taskyapp/core/services/preferences_manger.dart';
 import 'package:taskyapp/core/theme/theme_controler.dart';
 import 'package:taskyapp/core/widgets/custom_svg_picture.dart';
@@ -31,12 +32,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void _loadUserData() {
     setState(() {
-      username = PreferencesManger().getString("username") ?? " ";
+      username = PreferencesManger().getString( StorageKey.username,) ?? " ";
       motivationQuote =
-          PreferencesManger().getString("motivationQuote") ??
+          PreferencesManger().getString(StorageKey.motivationQuote) ??
           "One task at a time. One step closer.";
       isLoading = false;
-      userImagePath = PreferencesManger().getString("user_Image");
+      userImagePath = PreferencesManger().getString(StorageKey.userImagePath);
     });
   }
 
@@ -178,9 +179,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Divider(),
                 ListTile(
                   onTap: () async {
-                    PreferencesManger().remove("username");
-                    PreferencesManger().remove("tasks");
-                    PreferencesManger().remove("motivationQuote");
+                    PreferencesManger().remove( StorageKey.username,);
+                    PreferencesManger().remove(StorageKey.userImagePath);
+                    PreferencesManger().remove(StorageKey.motivationQuote);
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
@@ -207,7 +208,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _saveImage(XFile file) async {
     final appDir = await getApplicationDocumentsDirectory();
     final newFile = await File(file.path).copy('${appDir.path}/${file.name}');
-    PreferencesManger().setString("user_Image", newFile.path);
+    PreferencesManger().setString(StorageKey.userImagePath , newFile.path);
   }
 }
 

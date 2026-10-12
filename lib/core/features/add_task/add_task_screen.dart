@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:taskyapp/core/constants/storage_key.dart';
 import 'package:taskyapp/core/services/preferences_manger.dart';
 import 'package:taskyapp/core/widgets/custom_text_form_field.dart';
 import 'package:taskyapp/models/task_model.dart';
@@ -78,7 +79,7 @@ class _AddTaskState extends State<AddTask> {
                 ElevatedButton.icon(
                   onPressed: () async {
                     if (_key.currentState?.validate() ?? false) {
-                      final taskjson = PreferencesManger().getString("tasks");
+                      final taskjson = PreferencesManger().getString(StorageKey.tasks);
 
                       List<dynamic> listTasks = [];
                       if (taskjson != null) {
@@ -96,7 +97,7 @@ class _AddTaskState extends State<AddTask> {
                       // print(taskjson);
                       final taskAfterEncode = jsonEncode(listTasks);
                       await PreferencesManger().setString(
-                        "tasks",
+                        StorageKey.tasks,
                         taskAfterEncode,
                       );
 

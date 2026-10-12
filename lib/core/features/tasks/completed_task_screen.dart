@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:taskyapp/core/constants/storage_key.dart';
 import 'package:taskyapp/core/services/preferences_manger.dart';
 
 import '../../../models/task_model.dart';
@@ -28,7 +29,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
     setState(() {
       isLoading = true;
     });
-    final finalTask = PreferencesManger().getString("tasks");
+    final finalTask = PreferencesManger().getString(StorageKey.tasks);
 
     if (finalTask != null) {
       final taskAfterDecode = jsonDecode(finalTask) as List<dynamic>;
@@ -47,7 +48,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
 
   void _deleteTask(int id) async {
     List<TaskModel> tasks = [];
-    final finalTask = PreferencesManger().getString("tasks");
+    final finalTask = PreferencesManger().getString(StorageKey.tasks);
 
     if (finalTask != null) {
       final taskAfterDecode = jsonDecode(finalTask) as List<dynamic>;
@@ -58,7 +59,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
         tasks.removeWhere((task) => task.id == id);
       });
       final updatedTask = tasks.map((element) => element.toJson()).toList();
-      await PreferencesManger().setString("tasks", jsonEncode(updatedTask));
+      await PreferencesManger().setString(StorageKey.tasks, jsonEncode(updatedTask));
     }
   }
 
@@ -96,7 +97,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
                       final updatedTask = tasks.map((e) => e.toJson()).toList();
 
                       await PreferencesManger().setString(
-                        "tasks",
+                      StorageKey.tasks  ,
                         jsonEncode(updatedTask),
                       );
                       _loadTask();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskyapp/core/constants/storage_key.dart';
 import 'package:taskyapp/core/services/preferences_manger.dart';
 import 'package:taskyapp/core/widgets/custom_text_form_field.dart';
 
@@ -73,11 +74,11 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                 onPressed: () async {
                   if (_key.currentState!.validate()) {
                     await PreferencesManger().setString(
-                      "username",
+                      StorageKey.username,
                       userNamecontroller.value.text,
                     );
                     await PreferencesManger().setString(
-                      "motivationQuote",
+                  StorageKey.motivationQuote,
                       motivationQuoteController.value.text,
                     );
 
@@ -85,7 +86,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                   }
                 },
                 child: Text(
-                  "Save Changes", 
+                  "Save Changes",
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
