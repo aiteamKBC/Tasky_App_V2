@@ -15,190 +15,198 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final HomeController controller = context.read<HomeController>();
+    final HomeController controller= context.read<HomeController>();
     return ChangeNotifierProvider<HomeController>(
+
       create: (context) => HomeController()..init(),
 
-      child: Scaffold(
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
+      child:  Scaffold(
+            body: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
 
-            child: CustomScrollView(
-              slivers: [
-                SliverToBoxAdapter(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // User Information
-                      Row(
-                        children: [
-                          Selector<HomeController, String?>(
-                            builder:
-                                (
-                                  BuildContext context,
-                                  String? userImagePath,
-                                  Widget? child,
-                                ) {
-                                  return CircleAvatar(
-                                    backgroundColor: Colors.transparent,
-                                    backgroundImage: userImagePath == null
-                                        ? const AssetImage(
-                                            "assets/images/Avatar.png",
-                                          )
-                                        : FileImage(File(userImagePath)),
-                                  );
-                                },
-                            selector: (context, controller) =>
-                                controller.userImagePath,
-                          ),
-
-                          const SizedBox(width: 8),
-
-                          Flexible(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Selector<HomeController, String?>(
-                                  builder:
-                                      (
-                                        BuildContext context,
-                                        String? username,
-                                        Widget? child,
-                                      ) {
-                                        return Text(
-                                          "Good Evening, $username",
-                                          style: Theme.of(
-                                            context,
-                                          ).textTheme.titleMedium,
-                                        );
-                                      },
-                                  selector: (context, controller) =>
-                                      controller.username,
-                                ),
-
-                                Text(
-                                  "One task at a time. One step closer.",
-                                  style: Theme.of(context).textTheme.titleSmall,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(height: 16),
-
-                      // Welcome Section
-                      Column(
+                child: CustomScrollView(
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "Yuhuu, Your work Is ",
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-
+                          // User Information
                           Row(
                             children: [
-                              Text(
-                                "almost done! ",
-                                style: Theme.of(context).textTheme.titleLarge,
+                              Selector<HomeController, String?>(
+                                builder:
+                                    (
+                                      BuildContext context,
+                                      String? userImagePath,
+                                      Widget? child,
+                                    ) {
+                                      return CircleAvatar(
+                                        backgroundColor: Colors.transparent,
+                                        backgroundImage: userImagePath == null
+                                            ? const AssetImage(
+                                                "assets/images/Avatar.png",
+                                              )
+                                            : FileImage(File(userImagePath)),
+                                      );
+                                    },
+                                selector: (context, controller) =>
+                                    controller.userImagePath,
                               ),
 
                               const SizedBox(width: 8),
 
-                              CustomSvgPicture.withoutColor(
-                                path: "assets/images/wavinghand.svg",
-                                width: 32,
-                                hight: 32,
+                              Flexible(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Selector<HomeController, String?>(
+                                      builder:
+                                          (
+                                            BuildContext context,
+                                            String? username,
+                                            Widget? child,
+                                          ) {
+                                            return Text(
+                                              "Good Evening, $username",
+                                              style: Theme.of(
+                                                context,
+                                              ).textTheme.titleMedium,
+                                            );
+                                          },
+                                      selector: (context, controller) =>
+                                          controller.username,
+                                    ),
+
+                                    Text(
+                                      "One task at a time. One step closer.",
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.titleSmall,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
+
+                          const SizedBox(height: 16),
+
+                          // Welcome Section
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Yuhuu, Your work Is ",
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
+
+                              Row(
+                                children: [
+                                  Text(
+                                    "almost done! ",
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.titleLarge,
+                                  ),
+
+                                  const SizedBox(width: 8),
+
+                                  CustomSvgPicture.withoutColor(
+                                    path: "assets/images/wavinghand.svg",
+                                    width: 32,
+                                    hight: 32,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+
+                          const SizedBox(height: 16),
+
+                          // Archived Tasks
+                          ArchievedTasks(
+                            totalTasks: controller.totalTasks,
+                            doneTasks: controller.doneTasks,
+                            progress: controller.progress,
+                          ),
+
+                          const SizedBox(height: 8),
+
+                          // High Priority Tasks
+                          HighPriorityTasks(
+                            tasks: controller.tasks,
+
+                            onTap: (bool? isDone, int? index) {
+                              controller.doneTask(isDone, index);
+                            },
+
+                            refresh: () {
+                              controller.loadTask();
+                            },
+                          ),
+
+                          Padding(
+                            padding: const EdgeInsets.only(top: 24, bottom: 16),
+                            child: Text(
+                              "My Tasks",
+                              style: Theme.of(context).textTheme.labelSmall,
+                            ),
+                          ),
                         ],
                       ),
+                    ),
 
-                      const SizedBox(height: 16),
+                    // Tasks List
+                    controller.isLoading
+                        ? const SliverToBoxAdapter(
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.green,
+                              ),
+                            ),
+                          )
+                        : SliverTaskList(
+                            tasks: controller.tasks,
 
-                      // Archived Tasks
-                      ArchievedTasks(
-                        totalTasks: controller.totalTasks,
-                        doneTasks: controller.doneTasks,
-                        progress: controller.progress,
-                      ),
+                            onTap: (bool? isDone, int? index) {
+                              controller.doneTask(isDone, index);
+                            },
 
-                      const SizedBox(height: 8),
+                            onDelete: (int id) {
+                              controller.deleteTask(id);
+                            },
 
-                      // High Priority Tasks
-                      HighPriorityTasks(
-                        tasks: controller.tasks,
-
-                        onTap: (bool? isDone, int? index) {
-                          controller.doneTask(isDone, index);
-                        },
-
-                        refresh: () {
-                          controller.loadTask();
-                        },
-                      ),
-
-                      Padding(
-                        padding: const EdgeInsets.only(top: 24, bottom: 16),
-                        child: Text(
-                          "My Tasks",
-                          style: Theme.of(context).textTheme.labelSmall,
-                        ),
-                      ),
-                    ],
-                  ),
+                            onEdit: () {
+                              controller.loadTask();
+                            },
+                          ),
+                  ],
                 ),
-
-                // Tasks List
-                controller.isLoading
-                    ? const SliverToBoxAdapter(
-                        child: Center(
-                          child: CircularProgressIndicator(color: Colors.green),
-                        ),
-                      )
-                    : SliverTaskList(
-                        tasks: controller.tasks,
-
-                        onTap: (bool? isDone, int? index) {
-                          controller.doneTask(isDone, index);
-                        },
-
-                        onDelete: (int id) {
-                          controller.deleteTask(id);
-                        },
-
-                        onEdit: () {
-                          controller.loadTask();
-                        },
-                      ),
-              ],
+              ),
             ),
-          ),
-        ),
 
-        // Add New Task Button
-        floatingActionButton: SizedBox(
-          height: 40,
-          child: FloatingActionButton.extended(
-            icon: const Icon(Icons.add),
-            label: const Text("Add New Task"),
+            // Add New Task Button
+            floatingActionButton: SizedBox(
+              height: 40,
+              child: FloatingActionButton.extended(
+                icon: const Icon(Icons.add),
+                label: const Text("Add New Task"),
 
-            onPressed: () async {
-              final bool? result = await Navigator.push<bool>(
-                context,
-                MaterialPageRoute(builder: (context) => const AddTask()),
-              );
+                onPressed: () async {
+                  final bool? result = await Navigator.push<bool>(
+                    context,
+                    MaterialPageRoute(builder: (context) => const AddTask()),
+                  );
 
-              if (context.mounted && result == true) {
-                controller.loadTask();
-              }
-            },
-          ),
-        ),
-      ),
+                  if (context.mounted && result == true) {
+                    controller.loadTask();
+                  }
+                },
+              ),
+            ),
+          )
+          
     );
   }
 }
